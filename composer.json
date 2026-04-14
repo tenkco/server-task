@@ -1,0 +1,24 @@
+{
+    "name": "tenkco/server-task",
+    "description": "Simple mvc framework",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "tenkco",
+            "email": "sytnikkv@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.4 | ^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\": "core/Src/",
+            "": "app/"
+    }
+}
+
+
+}
