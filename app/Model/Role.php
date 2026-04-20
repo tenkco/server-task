@@ -1,8 +1,10 @@
 <?php
 namespace Model;
 use Illuminate\Database\Eloquent\Model;
-class Role extends Model {
-    protected $table = 'roles';
+
+class Role extends Model
+{
     public $timestamps = false;
-    protected $fillable = ['name'];
+    protected $table = 'roles';
+    protected $primaryKey = 'ID_role_name';
 }

@@ -1,8 +1,10 @@
 <?php
 namespace Model;
 use Illuminate\Database\Eloquent\Model;
-class Department extends Model {
-    protected $table = 'departments';
+
+class Department extends Model
+{
     public $timestamps = false;
-    protected $fillable = ['name'];
+    protected $table = 'departments';
+    protected $primaryKey = 'ID_department';
 }

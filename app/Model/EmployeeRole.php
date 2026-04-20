@@ -1,26 +1,20 @@
 <?php
-
 namespace Model;
-
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class EmployeeRole extends Model
 {
-    use HasFactory;
-
-    protected $table = 'employee_roles';
     public $timestamps = false;
-
-    protected $fillable = ['employee_id', 'role_id'];
+    protected $table = 'employee_role';
+    protected $primaryKey = 'ID_employee_role';
 
     public function employee()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Employee::class, 'ID_employee', 'ID_employee');
     }
 
     public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'ID_role_name', 'ID_role_name');
     }
 }

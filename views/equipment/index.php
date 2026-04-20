@@ -28,7 +28,7 @@
             </tbody>
         </table>
     </div>
-    <div class="btn-row" style="max-width:560px;margin:0 auto;">
+    <div class="btn-row">
         <?php if (app()->auth::user()->isAdmin()): ?>
             <a href="<?= app()->route->getUrl('/equipment/create') ?>" class="btn btn-primary">Добавить</a>
         <?php endif; ?>

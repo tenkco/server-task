@@ -1,48 +1,37 @@
 <?php
-
 namespace Model;
-
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Equipment extends Model
 {
-    use HasFactory;
-
-    protected $table = 'equipment';
     public $timestamps = false;
+    protected $table = 'equipment';
+    protected $primaryKey = 'Inventory_number';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = [
-        'inventory_number', 'name', 'model',
-        'commissioning_date', 'price',
-        'condition_id', 'department_id', 'employee_role_id'
+        'Inventory_number', 'Name', 'Model', 'Price',
+        'Commissioning_date', 'ID_status_code', 'ID_department', 'ID_employee_role'
     ];
 
     public function condition()
     {
-        return $this->belongsTo(EquipmentCondition::class);
+        return $this->belongsTo(EquipmentCondition::class, 'ID_status_code', 'ID_status_code');
     }
 
     public function department()
     {
-        return $this->belongsTo(Department::class);
+        return $this->belongsTo(Department::class, 'ID_department', 'ID_department');
     }
 
-    // Ответственный — через employee_role
-    public function employeeRole()
+    public function responsible()
     {
-        return $this->belongsTo(EmployeeRole::class);
+        return $this->belongsTo(EmployeeRole::class, 'ID_employee_role', 'ID_employee_role');
     }
 
     public function repairs()
     {
-        return $this->hasMany(Repair::class);
-    }
-
-    // Амортизация: 10% в год
-    public function getDepreciationAttribute(): float
-    {
-        $years = (int) date('Y') - (int) date('Y', strtotime($this->commissioning_date));
-        return round($this->price * 0.1 * $years, 2);
+        return $this->hasMany(Repair::class, 'Inventory_number', 'Inventory_number');
     }
 }

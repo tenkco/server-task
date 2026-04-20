@@ -1,9 +1,10 @@
 <?php
 namespace Model;
 use Illuminate\Database\Eloquent\Model;
-class Repair extends Model {
-    protected $table = 'repairs';
+
+class Repair extends Model
+{
     public $timestamps = false;
-    protected $fillable = ['equipment_id','breakdown_date','repair_date','description','price'];
-    public function equipment() { return $this->belongsTo(Equipment::class); }
+    protected $table = 'repairs';
+    protected $fillable = ['Date_of_breakdown', 'Repair_date', 'Description_of_work', 'Price', 'Inventory_number'];
 }

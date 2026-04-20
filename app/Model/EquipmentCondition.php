@@ -1,8 +1,10 @@
 <?php
 namespace Model;
 use Illuminate\Database\Eloquent\Model;
-class EquipmentCondition extends Model {
-    protected $table = 'equipment_conditions';
+
+class EquipmentCondition extends Model
+{
     public $timestamps = false;
-    protected $fillable = ['name'];
+    protected $table = 'equipment_condition';
+    protected $primaryKey = 'ID_status_code';
 }
