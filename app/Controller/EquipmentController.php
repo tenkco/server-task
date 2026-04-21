@@ -15,14 +15,12 @@ class EquipmentController
             app()->route->redirect('/equipment');
         }
 
-        // 🔧 АВТОПРОВЕРКА: если ремонт завершён до сегодня → статус "Исправен"
         $today = date('Y-m-d');
         foreach ($equipment->repairs as $repair) {
             if ($repair->Repair_date && $repair->Repair_date <= $today && $equipment->ID_status_code != 1) {
-                $equipment->ID_status_code = 1; // 1 = Исправен
+                $equipment->ID_status_code = 1;
                 $equipment->save();
 
-                // Перезагружаем объект с актуальными данными
                 $equipment = Equipment::with(['repairs', 'condition', 'department'])->find($id);
                 break;
             }

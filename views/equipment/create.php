@@ -40,7 +40,7 @@
                 <label>
                     Кафедра
                     <select name="ID_department" required>
-                        <option value="">— Выберите кафедру —</option>
+                        <option value="">Выберите кафедру</option>
                         <?php foreach ($departments as $dept): ?>
                             <option value="<?= $dept->ID_department ?>"
                                     <?= (($request->all()['ID_department'] ?? '') == $dept->ID_department) ? 'selected' : '' ?>>
@@ -62,7 +62,7 @@
                 <label>
                     Ответственный сотрудник
                     <select name="ID_employee_role">
-                        <option value="">— Не назначен —</option>
+                        <option value="">Не назначен</option>
                         <?php foreach ($employees as $empRole):
                             $emp = $empRole->employee;
                             $role = $empRole->role;

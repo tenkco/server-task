@@ -39,9 +39,11 @@ class Employee extends Model implements IdentityInterface
 
     public function isAdmin(): bool
     {
-        return strtolower(trim($this->login ?? '')) === 'admin';
+        return \Illuminate\Database\Capsule\Manager::table('employee_role')
+            ->where('ID_employee', $this->ID_employee)
+            ->where('ID_role_name', 1)
+            ->exists();
     }
-
     public function getFullNameAttribute(): string
     {
         return $this->login ?? '';

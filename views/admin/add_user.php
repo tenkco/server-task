@@ -4,10 +4,31 @@
         <?php if (!empty($error)): ?>
             <div class="error-msg"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
+
         <form method="post" action="<?= app()->route->getUrl('/admin/users') ?>">
             <div style="display:flex;flex-direction:column;gap:14px;">
-                <input type="text"     name="login"    placeholder="Логин" required>
-                <input type="password" name="password" placeholder="Пароль" required>
+                <label>
+                    Логин:
+                    <input type="text" name="login" placeholder="Введите логин" required>
+                </label>
+
+                <label>
+                    Пароль:
+                    <input type="password" name="password" placeholder="Введите пароль" required>
+                </label>
+
+                <label>
+                    Роль:
+                    <select name="ID_role_name" required style="width: 100%; padding: 8px; margin-top: 5px;">
+                        <option value="">Выберите роль</option>
+                        <?php foreach ($roles as $role): ?>
+                            <option value="<?= $role->ID_role_name ?>">
+                                <?= htmlspecialchars($role->Role_name) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+
                 <div class="btn-row">
                     <button class="btn btn-primary">Сохранить</button>
                     <a href="<?= app()->route->getUrl('/equipment') ?>" class="btn btn-secondary">Отмена</a>

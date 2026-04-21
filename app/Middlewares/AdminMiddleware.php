@@ -17,7 +17,7 @@ class AdminMiddleware
         $user = Auth::user();
         $isAdmin = \Illuminate\Database\Capsule\Manager::table('employee_role')
             ->where('ID_employee', $user->ID_employee)
-            ->where('ID_role_name', 1) // 1 = ID Администратора из таблицы roles
+            ->where('ID_role_name', 1)
             ->exists();
 
         if (!$isAdmin) {

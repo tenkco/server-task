@@ -20,7 +20,6 @@ class AdminController
     public function addUser(Request $request): string
     {
         if ($request->method === 'POST') {
-            // 🔧 Используем $_POST напрямую для проверки
             $login = trim($_POST['login'] ?? '');
             $password = $_POST['password'] ?? '';
 
@@ -55,10 +54,6 @@ class AdminController
         if ($request->method === 'POST') {
             $data = $request->all();
 
-            if (empty($data['Inventory_number'])) {
-                $data['Inventory_number'] = 'EQ-' . time();
-            }
-
             if (empty($data['Name'])) {
                 return (new View())->render('equipment.create', [
                     'message' => 'Заполните обязательные поля',
@@ -67,6 +62,8 @@ class AdminController
                     'employees' => EmployeeRole::with(['employee', 'role'])->get()
                 ]);
             }
+
+            unset($data['Inventory_number']);
 
             Equipment::create($data);
             app()->route->redirect('/equipment');
