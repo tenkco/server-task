@@ -171,6 +171,11 @@ input, select, textarea {
     color: white;
 }
 
+input::placeholder {
+    color: white;
+}
+
+
 .text-center {
     text-align: center;
 }

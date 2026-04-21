@@ -2,7 +2,7 @@
 use Src\Route;
 
 // гость
-Route::add(['GET', 'POST'], '/login', [Controller\Site::class, 'login']);
+Route::add(['GET', 'POST'], '/', [Controller\Site::class, 'login']);
 Route::add('GET', '/logout', [Controller\Site::class, 'logout']);
 
 // оборудование
