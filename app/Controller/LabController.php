@@ -5,6 +5,7 @@ use Src\View;
 use Src\Request;
 use Model\Equipment;
 use Model\Repair;
+use Model\Department;
 
 class LabController
 {
@@ -26,9 +27,52 @@ class LabController
     }
 
     //подсчет стоимости
-    public function report(): string
+    public function report(Request $request): string
     {
-        $totalCost = Equipment::sum('Price');
-        return (new View())->render('report.index', ['total' => $totalCost]);
+        $query = Equipment::query();
+
+        if ($request->department_id) {
+            $query->where('ID_department', $request->department_id);
+        }
+
+        $totalCost = $query->sum('Price');
+
+        //список кафедр
+        $departments = Department::all();
+
+        return (new View())->render('report.index', [
+            'total' => $totalCost,
+            'departments' => $departments,
+            'selectedDepartment' => $request->department_id ?? null
+        ]);
+    }
+
+    public function createRepair($id, Request $request): string
+    {
+        $inventoryNumber = $id;
+
+        if ($request->method === 'POST') {
+            Repair::create($request->all());
+
+            if (!empty($request->Repair_date)) {
+                $eq = \Model\Equipment::find($inventoryNumber);
+                if ($eq) {
+                    $eq->ID_status_code = 1;
+                    $eq->save();
+                }
+            } else {
+                $eq = \Model\Equipment::find($inventoryNumber);
+                if ($eq) {
+                    $eq->ID_status_code = 2;
+                    $eq->save();
+                }
+            }
+
+            app()->route->redirect('/equipment/show/' . urlencode($inventoryNumber));
+        }
+
+        return (new View())->render('repair.create', [
+            'inventory_number' => $inventoryNumber
+        ]);
     }
 }

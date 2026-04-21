@@ -1,9 +1,24 @@
-<h2>Регистрация нового пользователя</h2>
-<h3><?= $message ?? ''; ?></h3>
-<form method="post">
-    <label>Имя <input type="text" name="name"></label>
-    <label>Логин <input type="text" name="login"></label>
-    <label>Пароль <input type="password" name="password"></label>
-    <button>Зарегистрироваться</button>
-</form>
-
+<div class="container">
+    <h1>Добавление лаборанта/инженера</h1>
+    <div class="form-wrap">
+        <?php if (!empty($message)): ?>
+            <div class="error-msg"><?= htmlspecialchars($message) ?></div>
+        <?php endif; ?>
+        <form method="post">
+            <div style="display:flex;flex-direction:column;gap:14px;">
+                <label>
+                    Логин *
+                    <input type="text" name="Login" required placeholder="Придумайте логин">
+                </label>
+                <label>
+                    Пароль *
+                    <input type="password" name="password" required placeholder="Придумайте пароль">
+                </label>
+                <div class="btn-row">
+                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <a href="<?= app()->route->getUrl('/equipment') ?>" class="btn btn-secondary">Отмена</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

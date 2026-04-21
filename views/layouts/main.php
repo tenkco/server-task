@@ -8,19 +8,23 @@
 </head>
 <body>
 <?php if (app()->auth->check()): ?>
+
     <nav>
-        <a href="<?= app()->route->getUrl('/equipment') ?>">Оборудование</a>
-        <a href="<?= app()->route->getUrl('/report') ?>">Отчёт</a>
-        <?php if (app()->auth->user()->isAdmin()): ?>
-            <a href="<?= app()->route->getUrl('/equipment/create') ?>">+ Добавить</a>
-            <a href="<?= app()->route->getUrl('/signup') ?>">+ Пользователь</a>
-        <?php endif; ?>
+        <div>
+            <a href="<?= app()->route->getUrl('/equipment') ?>">Оборудование</a>
+            <a href="<?= app()->route->getUrl('/report') ?>">Отчёт</a>
+            <?php if (app()->auth->user()->isAdmin()): ?>
+                <a href="<?= app()->route->getUrl('/equipment/create') ?>">Добавить оборудование</a>
+                <a href="<?= app()->route->getUrl('/admin/users') ?>">Добавить пользователя</a>
+            <?php endif; ?>
+        </div>
         <span class="nav-user">
-        <?= htmlspecialchars(app()->auth->user()->full_name) ?> |
-        <a href="<?= app()->route->getUrl('/logout') ?>">Выход</a>
-    </span>
+            <?= htmlspecialchars(app()->auth->user()->full_name ?? app()->auth->user()->Login ?? 'Пользователь') ?>
+            <a href="<?= app()->route->getUrl('/logout') ?>">Выход</a>
+        </span>
     </nav>
 <?php endif; ?>
+
 <main>
     <?= $content ?? '' ?>
 </main>

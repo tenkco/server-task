@@ -1,13 +1,23 @@
-<h2>Авторизация</h2>
-<h3><?= $message ?? ''; ?></h3>
-
-<h3><?= app()->auth->user()->name ?? ''; ?></h3>
-<?php
-if (!app()->auth::check()):
-    ?>
-    <form method="post">
-        <label>Логин <input type="text" name="login"></label>
-        <label>Пароль <input type="password" name="password"></label>
-        <button>Войти</button>
-    </form>
-<?php endif;
+<div class="container">
+    <h1>Авторизация</h1>
+    <div class="form-wrap">
+        <?php if (!empty($message)): ?>
+            <div class="error-msg"><?= htmlspecialchars($message) ?></div>
+        <?php endif; ?>
+        <form method="post">
+            <div style="display:flex;flex-direction:column;gap:14px;">
+                <label>
+                    Логин
+                    <input type="text" name="login" required placeholder="Введите логин">
+                </label>
+                <label>
+                    Пароль
+                    <input type="password" name="password" required placeholder="Введите пароль">
+                </label>
+                <div class="btn-row">
+                    <button type="submit" class="btn btn-primary">Войти</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

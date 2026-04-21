@@ -10,41 +10,40 @@ class Employee extends Model implements IdentityInterface
     protected $table = 'employees';
     protected $primaryKey = 'ID_employee';
 
-    protected $fillable = ['Login', 'password'];
+    protected $fillable = ['login', 'password'];
 
     protected static function booted()
     {
-        static::created(function ($employee) {
+        static::creating(function ($employee) {
             $employee->password = md5($employee->password);
-            $employee->save();
         });
     }
 
     public function findIdentity(int $id)
     {
-        return self::where('ID_employee', $id)->first();
+        return self::select('*')->where('ID_employee', $id)->first();
     }
 
     public function getId(): int
     {
         return $this->ID_employee;
     }
+
     public function attemptIdentity(array $credentials)
     {
-        return self::where([
-            'Login' => $credentials['login'],
+        return self::select('*')->where([
+            'login' => $credentials['login'],
             'password' => md5($credentials['password'])
         ])->first();
     }
 
     public function isAdmin(): bool
     {
-        return $this->Login === 'admin';
+        return strtolower(trim($this->login ?? '')) === 'admin';
     }
 
     public function getFullNameAttribute(): string
     {
-        return $this->Login ?? '';
+        return $this->login ?? '';
     }
-
 }
