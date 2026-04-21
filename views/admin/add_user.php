@@ -9,12 +9,12 @@
             <div style="display:flex;flex-direction:column;gap:14px;">
                 <label>
                     Логин:
-                    <input type="text" name="login" placeholder="Введите логин" required>
+                    <input type="text" name="login" placeholder="Введите логин" required style="color: white">
                 </label>
 
                 <label>
                     Пароль:
-                    <input type="password" name="password" placeholder="Введите пароль" required>
+                    <input type="password" name="password" placeholder="Введите пароль" required style="color: white">
                 </label>
 
                 <label>

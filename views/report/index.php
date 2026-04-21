@@ -17,7 +17,7 @@
     </form>
 
     <div class="table-card text-center">
-        <h2>Общая стоимость:</h2>
+        <h2 style="text-align: left">Общая стоимость:</h2>
         <p style="font-size: 2em; font-weight: 700; color: var(--btn-primary);">
             <?= number_format($total, 2, '.', ' ') ?> ₽
         </p>

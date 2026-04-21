@@ -11,8 +11,8 @@
 
                 <label>
                     Оборудование
-                    <input type="text" value="<?= htmlspecialchars($inventory_number) ?>" disabled
-                           style="background:#ccc;cursor:not-allowed;">
+                    <input type="text" value="<?= htmlspecialchars($equipmentName ?? 'Неизвестно') ?>" disabled
+                           style="background:white;color: #0D0D0D">
                     <input type="hidden" name="Inventory_number" value="<?= htmlspecialchars($inventory_number) ?>">
                 </label>
 
@@ -29,7 +29,7 @@
                 <label>
                     Описание работ
                     <textarea name="Description_of_work" rows="4" required
-                              placeholder="Что было сделано?"></textarea>
+                              placeholder="Что было сделано?" style="color: white"></textarea>
                 </label>
 
                 <label>

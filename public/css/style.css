@@ -110,7 +110,6 @@ th {
     font-weight: var(--font-weight-heading);
     font-size: 16px;
     border: none;
-    cursor: pointer;
     text-align: center;
 }
 .btn-primary {
@@ -164,10 +163,12 @@ label {
 input, select, textarea {
     padding: 12px;
     border-radius: 6px;
-    border: 1px solid #999;
+    border: 1px solid #0259AA;
     font-size: 14px;
     width: 100%;
     font-weight: var(--font-weight-heading);
+    background: #0D0D0D;
+    color: white;
 }
 
 .text-center {

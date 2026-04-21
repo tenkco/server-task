@@ -49,30 +49,36 @@ class LabController
 
     public function createRepair($id, Request $request): string
     {
-        $inventoryNumber = $id;
+        $equipment = Equipment::find($id);
+
+        if (!$equipment) {
+            app()->route->redirect('/equipment');
+        }
 
         if ($request->method === 'POST') {
-            Repair::create($request->all());
+            \Model\Repair::create([
+                'Inventory_number' => $equipment->Inventory_number,
+                'Date_of_breakdown' => $request->Date_of_breakdown,
+                'Repair_date' => $request->Repair_date,
+                'Description_of_work' => $request->Description_of_work,
+                'Price' => $request->Price
+            ]);
 
-            if (!empty($request->Repair_date)) {
-                $eq = \Model\Equipment::find($inventoryNumber);
-                if ($eq) {
-                    $eq->ID_status_code = 1;
-                    $eq->save();
-                }
+            if (!empty($request->Repair_date) && $request->Repair_date <= date('Y-m-d')) {
+                $equipment->ID_status_code = 1;
+                $equipment->save();
             } else {
-                $eq = \Model\Equipment::find($inventoryNumber);
-                if ($eq) {
-                    $eq->ID_status_code = 2;
-                    $eq->save();
-                }
+                $equipment->ID_status_code = 2;
+                $equipment->save();
             }
 
-            app()->route->redirect('/equipment/show/' . urlencode($inventoryNumber));
+            app()->route->redirect('/equipment/show/' . urlencode($equipment->Inventory_number));
         }
 
         return (new View())->render('repair.create', [
-            'inventory_number' => $inventoryNumber
+            'inventory_number' => $equipment->Inventory_number,
+            'equipmentName' => $equipment->Name,
+            'request' => $request
         ]);
     }
 }
