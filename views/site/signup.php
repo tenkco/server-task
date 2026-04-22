@@ -4,14 +4,17 @@
         <?php if (!empty($message)): ?>
             <div class="error-msg"><?= htmlspecialchars($message) ?></div>
         <?php endif; ?>
+
         <form method="post">
+            <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>">
+
             <div style="display:flex;flex-direction:column;gap:14px;">
                 <label>
-                    Логин *
+                    Логин
                     <input type="text" name="Login" required placeholder="Придумайте логин">
                 </label>
                 <label>
-                    Пароль *
+                    Пароль
                     <input type="password" name="password" required placeholder="Придумайте пароль">
                 </label>
                 <div class="btn-row">

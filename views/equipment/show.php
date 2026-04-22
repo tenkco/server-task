@@ -24,6 +24,8 @@
 
         <?php if (app()->auth->user()->isAdmin()): ?>
             <form method="post" action="<?= app()->route->getUrl('/equipment/set-status/' . urlencode($equipment->Inventory_number)) ?>" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #999;">
+                <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>">
+
                 <label>
                     Изменить статус:
                     <select name="ID_status_code" required style="width: 100%; padding: 8px; margin-top: 5px;">
@@ -47,6 +49,8 @@
 
         <?php if (app()->auth->user()->isAdmin()): ?>
             <form method="post" action="<?= app()->route->getUrl('/equipment/set-responsible/' . urlencode($equipment->Inventory_number)) ?>" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #999;">
+                <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>">
+
                 <label>
                     Изменить ответственного:
                     <select name="ID_employee_role" required style="width: 100%; padding: 8px; margin-top: 5px;">
