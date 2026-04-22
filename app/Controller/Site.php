@@ -21,16 +21,6 @@ class Site
         return (new View())->render('site.hello', ['message' => 'hello working']);
     }
 
-    public function signup(Request $request): string
-    {
-        if ($request->method === 'POST') {
-            if (User::create($request->all())) {
-                app()->route->redirect('/equipment');
-            }
-        }
-        return (new View())->render('site.signup');
-    }
-
     public function login(Request $request): string
     {
         if ($request->method === 'GET') {
@@ -47,7 +37,7 @@ class Site
     public function logout(): void
     {
         Auth::logout();
-        app()->route->redirect('/login');
+        app()->route->redirect('/');
     }
 
     public function signup(Request $request): string
@@ -69,7 +59,7 @@ class Site
             }
 
             if (User::create($request->all())) {
-                app()->route->redirect('/login');
+                app()->route->redirect('/');
             }
         }
         return new View('site.signup');
