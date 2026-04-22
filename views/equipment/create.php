@@ -6,8 +6,8 @@
             <div class="error-msg"><?= htmlspecialchars($message) ?></div>
         <?php endif; ?>
 
-        <form method="post">
-            <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>">
+        <form method="post" enctype="multipart/form-data">
+            <input name="csrf_token" type="hidden" value="<?= \Src\Auth\Auth::generateCSRF() ?>">
 
             <div style="display:flex;flex-direction:column;gap:14px;">
 
@@ -75,6 +75,11 @@
                             </option>
                         <?php endforeach; ?>
                     </select>
+                </label>
+
+                <label>
+                    Изображение
+                    <input type="file" name="image" accept="image/*">
                 </label>
 
                 <div class="btn-row">

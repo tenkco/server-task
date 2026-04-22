@@ -2,6 +2,13 @@
     <h1><?= htmlspecialchars($equipment->Name) ?></h1>
 
     <div class="table-card">
+        <?php if ($equipment->image): ?>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <img src="/pop-it-mvc/uploads/equipment/<?= htmlspecialchars($equipment->image) ?>"
+                     alt="Фото оборудования"
+                     style="width: 200px; height: 200px; object-fit: cover; border-radius: 12px; border: 2px solid #0259AA;">
+            </div>
+        <?php endif; ?>
         <h3>Основные данные</h3>
         <p><b>Инвентарный номер:</b> <?= htmlspecialchars($equipment->Inventory_number) ?></p>
         <br>
@@ -24,7 +31,7 @@
 
         <?php if (app()->auth->user()->isAdmin()): ?>
             <form method="post" action="<?= app()->route->getUrl('/equipment/set-status/' . urlencode($equipment->Inventory_number)) ?>" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #999;">
-                <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>">
+                <input name="csrf_token" type="hidden" value="<?= \Src\Auth\Auth::generateCSRF() ?>">
 
                 <label>
                     Изменить статус:
@@ -49,7 +56,7 @@
 
         <?php if (app()->auth->user()->isAdmin()): ?>
             <form method="post" action="<?= app()->route->getUrl('/equipment/set-responsible/' . urlencode($equipment->Inventory_number)) ?>" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #999;">
-                <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>">
+                <input name="csrf_token" type="hidden" value="<?= \Src\Auth\Auth::generateCSRF() ?>">
 
                 <label>
                     Изменить ответственного:

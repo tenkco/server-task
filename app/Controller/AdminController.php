@@ -83,6 +83,15 @@ class AdminController
             }
 
             unset($data['Inventory_number']);
+            $files = $request->files();
+
+            if (!empty($files['image']['name'])) {
+                $file = $files['image'];
+                $fileName = time() . '_' . $file['name'];
+                $destination = __DIR__ . '/../../public/uploads/equipment/' . $fileName;
+                move_uploaded_file($file['tmp_name'], $destination);
+                $data['image'] = $fileName;
+            }
 
             Equipment::create($data);
             app()->route->redirect('/equipment');

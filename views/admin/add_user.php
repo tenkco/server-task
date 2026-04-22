@@ -6,7 +6,7 @@
         <?php endif; ?>
 
         <form method="post" action="<?= app()->route->getUrl('/admin/users') ?>">
-            <input name="csrf_token" type="hidden" value="<?= app()->auth::generateCSRF() ?>">
+            <input name="csrf_token" type="hidden" value="<?= \Src\Auth\Auth::generateCSRF() ?>">
 
             <div style="display:flex;flex-direction:column;gap:14px;">
                 <label>

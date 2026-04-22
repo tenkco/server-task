@@ -11,8 +11,7 @@ class Equipment extends Model
     protected $keyType = 'string';
 
     protected $fillable = [
-        'Inventory_number', 'Name', 'Model', 'Price',
-        'Commissioning_date', 'ID_status_code', 'ID_department', 'ID_employee_role'
+        'Inventory_number', 'Name', 'Model', 'Price', 'Commissioning_date', 'ID_status_code', 'ID_department', 'ID_employee_role', 'image'
     ];
 
     public function condition()
