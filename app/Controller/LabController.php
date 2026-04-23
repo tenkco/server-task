@@ -9,11 +9,21 @@ use Model\Department;
 
 class LabController
 {
-    // просмотр оборудования
-    public function index(): string
+    // просмотр и поиск оборудования
+    public function index(Request $request): string
     {
-        $equipment = Equipment::all();
-        return (new View())->render('equipment.index', ['equipment' => $equipment]);
+        $search = trim(($request->all()['search'] ?? ''));
+        $query = Equipment::with(['department', 'condition']);
+
+        if ($search !== '') {
+            $query->where('Name', 'like', "%{$search}%");
+        }
+
+        $equipment = $query->get();
+        return (new View())->render('equipment.index', [
+            'equipment' => $equipment,
+            'search'    => $search
+        ]);
     }
 
     // история ремонтов

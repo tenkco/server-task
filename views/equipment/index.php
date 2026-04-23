@@ -1,5 +1,26 @@
 <div class="container">
     <h1>Все оборудование</h1>
+
+    <div class="search-form">
+        <form method="GET" action="<?= app()->route->getUrl('/equipment') ?>">
+            <input
+                    type="text"
+                    name="search"
+                    value="<?= htmlspecialchars($search ?? '') ?>"
+                    placeholder="Поиск"
+                    style="width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #0259AA; border-radius: 6px; font-size: 14px; background: #0D0D0D; color: white;">
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                Найти
+            </button>
+
+            <?php if (!empty($search)): ?>
+                <a href="<?= app()->route->getUrl('/equipment') ?>" class="btn btn-secondary" style="width: 100%; margin-top: 10px;">
+                    Сбросить
+                </a>
+            <?php endif; ?>
+        </form>
+    </div>
     <div class="table-card">
         <table>
             <thead>
