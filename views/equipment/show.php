@@ -4,9 +4,9 @@
     <div class="table-card">
         <?php if ($equipment->image): ?>
             <div style="text-align: center; margin-bottom: 20px;">
-                <img src="/pop-it-mvc/uploads/equipment/<?= htmlspecialchars($equipment->image) ?>"
+                <img src="/../../public/uploads/equipment/<?= htmlspecialchars($equipment->image) ?>"
                      alt="Фото оборудования"
-                     style="width: 200px; height: 200px; object-fit: cover; border-radius: 12px; border: 2px solid #0259AA;">
+                     style="width: 200px; height: 200px;border-radius: 12px; border: 2px solid #87CEFA;">
             </div>
         <?php endif; ?>
         <h3>Основные данные</h3>

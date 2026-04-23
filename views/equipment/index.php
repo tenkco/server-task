@@ -8,7 +8,7 @@
                     name="search"
                     value="<?= htmlspecialchars($search ?? '') ?>"
                     placeholder="Поиск"
-                    style="width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #0259AA; border-radius: 6px; font-size: 14px; background: #0D0D0D; color: white;">
+                    style="width: 100%; padding: 12px; margin-bottom: 10px; border: 1px solid #87CEFA; border-radius: 6px; font-size: 14px; background: #0D0D0D; color: white;">
 
             <button type="submit" class="btn btn-primary" style="width: 100%;">
                 Найти

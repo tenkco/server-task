@@ -32,6 +32,14 @@ class AdminController
                 ]);
             }
 
+            $existingEmployee = \Model\Employee::where('login', $login)->first();
+            if ($existingEmployee) {
+                return (new View())->render('admin.add_user', [
+                    'error' => 'Логин "' . htmlspecialchars($login) . '" уже занят',
+                    'roles' => \Model\Role::all()
+                ]);
+            }
+
             if (!$roleId) {
                 return (new View())->render('admin.add_user', [
                     'error' => 'Выберите роль',

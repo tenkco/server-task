@@ -7,7 +7,6 @@
         <?php endif; ?>
 
         <form method="post">
-            <!-- CSRF-токен -->
             <input name="csrf_token" type="hidden" value="<?= \Src\Auth\Auth::generateCSRF() ?>">
 
             <div style="display:flex;flex-direction:column;gap:14px;">
