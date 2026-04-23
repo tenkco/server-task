@@ -4,7 +4,7 @@
     <div class="table-card">
         <?php if ($equipment->image): ?>
             <div style="text-align: center; margin-bottom: 20px;">
-                <img src="/../../public/uploads/equipment/<?= htmlspecialchars($equipment->image) ?>"
+                <img src="<?= app()->route->getUrl('/uploads/equipment/' . htmlspecialchars($equipment->image)) ?>"
                      alt="Фото оборудования"
                      style="width: 200px; height: 200px;border-radius: 12px; border: 2px solid #87CEFA;">
             </div>

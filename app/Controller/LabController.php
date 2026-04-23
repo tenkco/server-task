@@ -66,29 +66,42 @@ class LabController
         }
 
         if ($request->method === 'POST') {
+            if (empty($request->Date_of_breakdown) || empty($request->Repair_date) || empty($request->Description_of_work)) {
+                return (new View())->render('repair.create', [
+                    'message' => 'Заполните все обязательные поля',
+                    'request' => $request,
+                    'inventory_number' => $equipment->Inventory_number,
+                    'equipmentName' => $equipment->Name
+                ]);
+            }
+
             \Model\Repair::create([
                 'Inventory_number' => $equipment->Inventory_number,
                 'Date_of_breakdown' => $request->Date_of_breakdown,
                 'Repair_date' => $request->Repair_date,
                 'Description_of_work' => $request->Description_of_work,
-                'Price' => $request->Price
+                'Price' => $request->Price ?? 0
             ]);
 
-            if (!empty($request->Repair_date) && $request->Repair_date <= date('Y-m-d')) {
+            if ($request->Repair_date <= date('Y-m-d')) {
                 $equipment->ID_status_code = 1;
-                $equipment->save();
             } else {
                 $equipment->ID_status_code = 2;
-                $equipment->save();
             }
+            $equipment->save();
 
-            app()->route->redirect('/equipment/show/' . urlencode($equipment->Inventory_number));
+            return (new View())->render('repair.create', [
+                'message' => 'Ремонт успешно добавлен!',
+                'request' => new \Src\Request(),
+                'inventory_number' => $equipment->Inventory_number,
+                'equipmentName' => $equipment->Name
+            ]);
         }
 
         return (new View())->render('repair.create', [
+            'request' => $request,
             'inventory_number' => $equipment->Inventory_number,
-            'equipmentName' => $equipment->Name,
-            'request' => $request
+            'equipmentName' => $equipment->Name
         ]);
     }
 }

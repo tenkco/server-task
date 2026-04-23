@@ -21,49 +21,56 @@ class AdminController
     public function addUser(Request $request): string
     {
         if ($request->method === 'POST') {
-            $login = trim($_POST['login'] ?? '');
-            $password = $_POST['password'] ?? '';
-            $roleId = $_POST['ID_role_name'] ?? null;
+            $login = trim($request->login ?? '');
+            $password = $request->password ?? '';
+            $roleId = $request->ID_role_name ?? null;
 
             if ($login === '' || $password === '') {
                 return (new View())->render('admin.add_user', [
-                    'error' => 'Заполните логин и пароль',
-                    'roles' => \Model\Role::all()
+                    'message' => 'Заполните логин и пароль',
+                    'request' => $request,
+                    'roles' => Role::all()
                 ]);
             }
 
-            $existingEmployee = \Model\Employee::where('login', $login)->first();
-            if ($existingEmployee) {
+            if (Employee::where('login', $login)->exists()) {
                 return (new View())->render('admin.add_user', [
-                    'error' => 'Логин "' . htmlspecialchars($login) . '" уже занят',
-                    'roles' => \Model\Role::all()
+                    'message' => 'Логин "' . htmlspecialchars($login) . '" уже занят',
+                    'request' => $request,
+                    'roles' => Role::all()
                 ]);
             }
 
             if (!$roleId) {
                 return (new View())->render('admin.add_user', [
-                    'error' => 'Выберите роль',
-                    'roles' => \Model\Role::all()
+                    'message' => 'Выберите роль пользователя',
+                    'request' => $request,
+                    'roles' => Role::all()
                 ]);
             }
 
-            $employee = \Model\Employee::create([
+            $employee = Employee::create([
                 'login' => $login,
                 'password' => $password
             ]);
 
             if ($employee && $roleId) {
-                \Model\EmployeeRole::create([
+                EmployeeRole::create([
                     'ID_employee' => $employee->ID_employee,
                     'ID_role_name' => $roleId
                 ]);
             }
 
-            app()->route->redirect('/admin/users');
+            return (new View())->render('admin.add_user', [
+                'message' => 'Пользователь успешно добавлен',
+                'request' => new \Src\Request(),
+                'roles' => Role::all()
+            ]);
         }
 
         return (new View())->render('admin.add_user', [
-            'roles' => \Model\Role::all()
+            'request' => $request,
+            'roles' => Role::all()
         ]);
     }
 

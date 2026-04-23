@@ -3,14 +3,15 @@
 
     <div class="form-wrap">
         <?php if (!empty($message)): ?>
-            <div class="error-msg"><?= htmlspecialchars($message) ?></div>
+            <div class="<?= strpos($message, 'успешно') !== false ? 'success-msg' : 'error-msg' ?>">
+                <?= htmlspecialchars($message) ?>
+            </div>
         <?php endif; ?>
 
         <form method="post">
             <input name="csrf_token" type="hidden" value="<?= \Src\Auth\Auth::generateCSRF() ?>">
 
             <div style="display:flex;flex-direction:column;gap:14px;">
-
                 <label>
                     Оборудование
                     <input type="text" value="<?= htmlspecialchars($equipmentName ?? 'Неизвестно') ?>" disabled
@@ -20,23 +21,29 @@
 
                 <label>
                     Дата поломки
-                    <input type="date" name="Date_of_breakdown" required>
+                    <input type="date" name="Date_of_breakdown"
+                           value="<?= htmlspecialchars(($request->all()['Date_of_breakdown'] ?? '')) ?>"
+                           required>
                 </label>
 
                 <label>
                     Дата ремонта
-                    <input type="date" name="Repair_date" required>
+                    <input type="date" name="Repair_date"
+                           value="<?= htmlspecialchars(($request->all()['Repair_date'] ?? '')) ?>"
+                           required>
                 </label>
 
                 <label>
                     Описание работ
                     <textarea name="Description_of_work" rows="4" required
-                              placeholder="Что было сделано?" style="color: white"></textarea>
+                              placeholder="Что было сделано?" style="color: white"><?= htmlspecialchars(($request->all()['Description_of_work'] ?? '')) ?></textarea>
                 </label>
 
                 <label>
                     Стоимость ремонта (₽)
-                    <input type="number" name="Price" step="0.01" value="0.00" placeholder="0.00">
+                    <input type="number" name="Price" step="0.01"
+                           value="<?= htmlspecialchars(($request->all()['Price'] ?? '0.00')) ?>"
+                           placeholder="0.00">
                 </label>
 
                 <div class="btn-row">

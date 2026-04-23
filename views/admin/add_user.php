@@ -1,8 +1,10 @@
 <div class="container">
     <h1>Добавление лаборанта/инженера</h1>
     <div class="form-wrap">
-        <?php if (!empty($error)): ?>
-            <div class="error-msg"><?= htmlspecialchars($error) ?></div>
+        <?php if (!empty($message)): ?>
+            <div class="<?= strpos($message, 'успешно') !== false ? 'success-msg' : 'error-msg' ?>">
+                <?= htmlspecialchars($message) ?>
+            </div>
         <?php endif; ?>
 
         <form method="post" action="<?= app()->route->getUrl('/admin/users') ?>">
@@ -11,7 +13,8 @@
             <div style="display:flex;flex-direction:column;gap:14px;">
                 <label>
                     Логин:
-                    <input type="text" name="login" placeholder="Введите логин" required style="color: white">
+                    <input type="text" name="login" placeholder="Введите логин" required style="color: white"
+                           value="<?= htmlspecialchars(($request->all()['login'] ?? '')) ?>">
                 </label>
 
                 <label>
@@ -24,7 +27,8 @@
                     <select name="ID_role_name" required style="width: 100%; padding: 8px; margin-top: 5px;">
                         <option value="">Выберите роль</option>
                         <?php foreach ($roles as $role): ?>
-                            <option value="<?= $role->ID_role_name ?>">
+                            <option value="<?= $role->ID_role_name ?>"
+                                    <?= (($request->all()['ID_role_name'] ?? '') == $role->ID_role_name) ? 'selected' : '' ?>>
                                 <?= htmlspecialchars($role->Role_name) ?>
                             </option>
                         <?php endforeach; ?>
