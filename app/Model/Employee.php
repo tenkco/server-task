@@ -2,7 +2,7 @@
 namespace Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Src\Auth\IdentityInterface;
+use Tenkco\Auth\IdentityInterface;
 
 class Employee extends Model implements IdentityInterface
 {

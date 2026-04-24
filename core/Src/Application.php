@@ -13,7 +13,7 @@ class Application
     private Settings $settings;
     private Route $route;
     private Capsule $dbManager;
-    private Auth $auth;
+    private $auth;
 
     public function __construct(Settings $settings)
     {

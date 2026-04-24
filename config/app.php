@@ -1,12 +1,12 @@
 <?php
 return [
     //Класс аутентификации
-    'auth' => \Src\Auth\Auth::class,
+    'auth' => \Tenkco\Auth\Auth::class,
     //Клас пользователя
     'identity' => \Model\Employee::class,
     //Классы для middleware
     'routeMiddleware' => [
-    'auth' => \Middlewares\AuthMiddleware::class,
+    'auth' => \Tenkco\Auth\AuthMiddleware::class,
     'admin' => \Middlewares\AdminMiddleware::class,
     ],
     'validators' => [
