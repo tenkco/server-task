@@ -16,7 +16,8 @@
         "illuminate/events": "12.x-dev",
         "nikic/fast-route": "^2.0@dev",
         "tenkco/collect": "dev-main",
-        "tenkco/auth-package": "dev-main"
+        "tenkco/auth-package": "dev-main",
+        "phpunit/phpunit": "11.5.x-dev"
     },
     "autoload": {
         "psr-4": {
