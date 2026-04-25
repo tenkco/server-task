@@ -31,7 +31,7 @@
 
         <?php if (app()->auth->user()->isAdmin()): ?>
             <form method="post" action="<?= app()->route->getUrl('/equipment/set-status/' . urlencode($equipment->Inventory_number)) ?>" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #999;">
-                <input name="csrf_token" type="hidden" value="<?= \Src\Auth\Auth::generateCSRF() ?>">
+                <input name="csrf_token" type="hidden" value="<?= \Tenkco\Auth\Auth::generateCSRF() ?>">
 
                 <label>
                     Изменить статус:
@@ -56,7 +56,7 @@
 
         <?php if (app()->auth->user()->isAdmin()): ?>
             <form method="post" action="<?= app()->route->getUrl('/equipment/set-responsible/' . urlencode($equipment->Inventory_number)) ?>" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid #999;">
-                <input name="csrf_token" type="hidden" value="<?= \Src\Auth\Auth::generateCSRF() ?>">
+                <input name="csrf_token" type="hidden" value="<?= \Tenkco\Auth\Auth::generateCSRF() ?>">
 
                 <label>
                     Изменить ответственного:

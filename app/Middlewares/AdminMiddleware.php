@@ -2,7 +2,7 @@
 namespace Middlewares;
 
 use Src\Request;
-use Src\Auth\Auth;
+use Tenkco\Auth\Auth;
 use Model\EmployeeRole;
 
 class AdminMiddleware

@@ -68,7 +68,7 @@ class LabController
         if ($request->method === 'POST') {
             if (empty($request->Date_of_breakdown) || empty($request->Repair_date) || empty($request->Description_of_work)) {
                 return (new View())->render('repair.create', [
-                    'message' => 'Заполните все обязательные поля',
+                    'message' => 'Ремонт добавлен',
                     'request' => $request,
                     'inventory_number' => $equipment->Inventory_number,
                     'equipmentName' => $equipment->Name
