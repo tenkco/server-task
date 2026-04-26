@@ -8,7 +8,7 @@ use Model\Employee;
 use Model\Department;
 use Model\EmployeeRole;
 use Model\Role;
-
+use Src\Validator\Validator;
 
 class AdminController
 {
@@ -20,10 +20,10 @@ class AdminController
 
     public function addUser(Request $request): string
     {
-        if ($request->method === 'POST') {
-            $login = trim($request->login ?? '');
-            $password = $request->password ?? '';
-            $roleId = $request->ID_role_name ?? null;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $login = trim($_POST['login'] ?? '');
+            $password = $_POST['password'] ?? '';
+            $roleId = $_POST['ID_role_name'] ?? null;
 
             if ($login === '' || $password === '') {
                 return (new View())->render('admin.add_user', [
@@ -76,8 +76,8 @@ class AdminController
 
     public function manage(Request $request): string
     {
-        if ($request->method === 'POST') {
-            Equipment::create($request->all());
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            Equipment::create($_POST);
         }
         $equipment = Equipment::all();
         return (new View())->render('admin.manage', ['equipment' => $equipment]);
@@ -85,30 +85,63 @@ class AdminController
 
     public function create(Request $request): string
     {
-        if ($request->method === 'POST') {
-            $data = $request->all();
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $data = $_POST;
+            $files = $_FILES;
+            $dataToValidate = $data;
+            if (!empty($files['image'])) {
+                $dataToValidate['image'] = $files['image'];
+            }
 
-            if (empty($data['Name'])) {
+            $rules = [
+                'Name' => ['required'],
+                'Model' => [],
+                'Price' => ['required', 'positiveNumber'],
+                'Commissioning_date' => ['required', 'date'],
+            ];
+
+            if (!empty($files['image']['name'])) {
+                $rules['image'] = ['image'];
+            }
+
+            $validator = new Validator($dataToValidate, $rules);
+
+            if (!$validator->validate()) {
                 return (new View())->render('equipment.create', [
-                    'message' => 'Заполните обязательные поля',
+                    'message' => json_encode($validator->errors(), JSON_UNESCAPED_UNICODE),
                     'request' => $request,
                     'departments' => Department::all(),
                     'employees' => EmployeeRole::with(['employee', 'role'])->get()
                 ]);
             }
 
-            unset($data['Inventory_number']);
-            $files = $request->files();
-
+            $imageName = null;
             if (!empty($files['image']['name'])) {
                 $file = $files['image'];
-                $fileName = time() . '_' . $file['name'];
-                $destination = __DIR__ . '/../../public/uploads/equipment/' . $fileName;
-                move_uploaded_file($file['tmp_name'], $destination);
-                $data['image'] = $fileName;
+                $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+                $imageName = time() . '_' . uniqid() . '.' . $ext;
+
+                $destination = __DIR__ . '/../../public/uploads/equipment/' . $imageName;
+
+                if (!move_uploaded_file($file['tmp_name'], $destination)) {
+                    return (new View())->render('equipment.create', [
+                        'message' => json_encode(['image' => 'Ошибка загрузки файла на сервер'], JSON_UNESCAPED_UNICODE),
+                        'request' => $request,
+                    ]);
+                }
             }
 
-            Equipment::create($data);
+            Equipment::create([
+                'Name' => $data['Name'],
+                'Model' => $data['Model'] ?? null,
+                'Price' => $data['Price'],
+                'Commissioning_date' => $data['Commissioning_date'],
+                'ID_status_code' => 1,
+                'ID_department' => $data['ID_department'] ?? null,
+                'ID_employee_role' => $data['ID_employee_role'] ?? null,
+                'image' => $imageName
+            ]);
+
             app()->route->redirect('/equipment');
         }
 

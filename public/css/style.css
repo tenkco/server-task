@@ -184,6 +184,10 @@ input::placeholder {
     display: none;
 }
 
+li {
+    list-style-type: none;
+}
+
 .error-msg {
     color: var(--status-off);
     padding: var(--spacing-sm) var(--spacing-md);

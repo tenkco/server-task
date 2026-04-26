@@ -1,77 +1,69 @@
 <?php
-
 namespace Src\Validator;
 
 class Validator
 {
-    //Разрешенные валидаторы
-    private array $validators = [];
-    //Итоговые ошибки
-    private array $errors = [];
-    //Проверяемые поля
-    private array $fields = [];
-    //Массив правил
-    private array $rules = [];
-    //Кастомные сообщения
-    private array $messages = [];
+    protected array $fields = [];
+    protected array $rules = [];
+    protected array $errors = [];
 
-    public function __construct(array $fields, array $rules, array $messages = [])
+    protected array $validators = [
+        'required'       => \Validators\RequiredValidator::class,
+        'unique'         => \Validators\UniqueValidator::class,
+        'positiveNumber' => \Validators\PositiveNumberValidator::class,
+        'date'           => \Validators\DateValidator::class,
+        'image'          => \Validators\ImageValidator::class,
+    ];
+
+    public function __construct(array $fields, array $rules)
     {
-        $this->validators = app()->settings->app['validators'] ?? [];
         $this->fields = $fields;
         $this->rules = $rules;
-        $this->messages = $messages;
-        $this->validate();
     }
-
-    //Перебираем список всех валидируемых полей и для
-    //каждого поля вызываем метод validateField()
-    private function validate(): void
+    public function validate(): bool
     {
-        foreach ($this->rules as $fieldName => $fieldValidators) {
-            $this->validateField($fieldName, $fieldValidators);
-        }
-    }
+        $this->errors = [];
 
-    //Валидация отдельного поля
-    private function validateField(string $fieldName, array $fieldValidators): void
-    {
-        //Перебираем все валидаторы, ассоциированные с полем
-        foreach ($fieldValidators as $validatorName) {
-            //Отделяем от имени валидатора дополнительные аргументы
-            $tmp = explode(':', $validatorName);
-            [$validatorName, $args] = count($tmp) > 1 ? $tmp : [$validatorName, null];
-            $args = isset($args) ? explode(',', $args) : [];
+        foreach ($this->rules as $fieldName => $fieldRules) {
+            foreach ($fieldRules as $rule) {
+                if (str_contains($rule, ':')) {
+                    [$ruleName, $argsString] = explode(':', $rule, 2);
+                    $args = explode(',', $argsString);
+                } else {
+                    $ruleName = $rule;
+                    $args = [];
+                }
 
-            //Соотносим имя валидатора с классом в массиве разрешенных валидаторов
-            $validatorClass = $this->validators[$validatorName];
-            if (!class_exists($validatorClass)) {
-                continue;
-            }
-            //Создаем объект валидатора, передаем туда параметры
-            $validator = new $validatorClass(
-                $fieldName,
-                $this->fields[$fieldName],
-                $args,
-                $this->messages[$validatorName]);
+                $validatorClass = $this->validators[$ruleName] ?? null;
 
-            //Если валидация не прошла, то добавляем ошибку в общий массив ошибок
-            if (!$validator->rule()) {
-                $this->errors[$fieldName][] = $validator->validate();
+                if (!$validatorClass || !class_exists($validatorClass)) {
+                    continue;
+                }
+
+                $validator = new $validatorClass(
+                    $fieldName,
+                    $this->fields[$fieldName] ?? null,
+                    $args
+                );
+
+                $result = $validator->validate();
+
+                if ($result !== true) {
+                    $this->errors[$fieldName][] = $result;
+                }
             }
         }
+
+        return empty($this->errors);
     }
 
-    //Возврат массива найденных ошибок
+    public function fails(): bool
+    {
+        return !empty($this->errors);
+    }
+
     public function errors(): array
     {
         return $this->errors;
     }
-
-    //Признак успешной валидации
-    public function fails(): bool
-    {
-        return (bool)count($this->errors);
-    }
 }
-
