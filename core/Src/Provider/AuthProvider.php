@@ -1,5 +1,5 @@
 <?php
-namespace Providers;
+namespace Src\Provider;
 
 use Src\Provider\AbstractProvider;
 use Src\Route;

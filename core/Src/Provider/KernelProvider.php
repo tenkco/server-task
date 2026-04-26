@@ -1,5 +1,5 @@
 <?php
-namespace Providers;
+namespace Src\Provider;
 
 use Src\Provider\AbstractProvider;
 use Src\Settings;
@@ -10,7 +10,7 @@ class KernelProvider extends AbstractProvider
 
     public function register(): void
     {
-        $this->settings = $this->getConfigs(__DIR__ . '/../../config');
+        $this->settings = $this->getConfigs(__DIR__ . '/../../../config');
     }
 
     public function boot(): void
