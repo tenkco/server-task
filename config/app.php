@@ -24,6 +24,12 @@ return [
         'db' => \Providers\DBProvider::class,
         'auth' => \Providers\AuthProvider::class,
     ],
+    'routeAppMiddleware' => [
+        'csrf' => \Middlewares\CSRFMiddleware::class,
+        'specialChars' => \Middlewares\SpecialCharsMiddleware::class,
+        'trim' => \Middlewares\TrimMiddleware::class,
+        'json' => \Middlewares\JSONMiddleware::class,
+    ],
 
 
 
