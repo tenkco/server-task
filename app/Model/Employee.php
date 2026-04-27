@@ -10,7 +10,11 @@ class Employee extends Model implements IdentityInterface
     protected $table = 'employees';
     protected $primaryKey = 'ID_employee';
 
-    protected $fillable = ['login', 'password'];
+    protected $fillable = [
+        'login',
+        'password',
+        'api_token'
+    ];
 
     protected static function booted()
     {
